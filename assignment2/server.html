@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment2</title>
+</head>
+
+
+<body>
+<h1>NSW Crime Data Import and Publication Service</h1>
+
+<script>
+    function get_one_collections_xml() {
+      var myHeaders = new Headers({
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+          'AUTH_TOKEN' : document.cookie.split(";")[0].split("=")[1]
+        });
+
+        const url = 'http://127.0.0.1:5000/collectxml/' + document.getElementById('id_lga').value;
+        console.log(document.cookie.split(";")[0].split("=")[1]);
+        fetch(url, {
+            method: 'get',
+            headers: myHeaders
+
+        }).then(function(response) {
+
+
+           response.json().then(function(data){
+              console.log(data);
+              var win = window.open();
+
+              win.document.write(data);    // !!! 关键，接收后端的数据并进行新窗口写入
+
+           });
+      }).catch(function(e) {
+          console.log("Oops, error");
+    });
+    }
+    function get_one_collections_json() {
+      var myHeaders = new Headers({
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+          'AUTH_TOKEN' : document.cookie.split(";")[0].split("=")[1]
+        });
+
+        const url = 'http://127.0.0.1:5000/collectjson/' + document.getElementById('id_lga').value;
+        console.log(document.cookie.split(";")[0].split("=")[1]);
+        fetch(url, {
+            method: 'get',
+            headers: myHeaders
+
+        }).then(function(response) {
+
+
+           response.json().then(function(data){
+              console.log(data);
+              var win = window.open();
+
+              win.document.write(data);    // !!! 关键，接收后端的数据并进行新窗口写入
+
+           });
+      }).catch(function(e) {
+          console.log("Oops, error");
+    });
+    }
+    function get_all_collections_xml()
+    {
+        var myHeaders = new Headers({
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+          'AUTH_TOKEN' : document.cookie.split(";")[0].split("=")[1]
+        });
+
+        const url = 'http://127.0.0.1:5000/collects';
+        console.log(document.cookie.split(";")[0].split("=")[1]);
+        fetch(url, {
+            method: 'get',
+            headers: myHeaders
+
+        }).then(function(response) {
+
+
+           response.json().then(function(data){
+              console.log(data);
+              var win = window.open();
+
+              win.document.write(data);    // !!! 关键，接收后端的数据并进行新窗口写入
+
+           });
+      }).catch(function(e) {
+          console.log("Oops, error");
+    });
+    }
+    function get_all_collections_json()
+    {
+        var myHeaders = new Headers({
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+          'AUTH_TOKEN' : document.cookie.split(";")[0].split("=")[1]
+        });
+
+        const url = 'http://127.0.0.1:5000/collectsjson';
+        console.log(document.cookie.split(";")[0].split("=")[1]);
+        fetch(url, {
+            method: 'get',
+            headers: myHeaders
+
+        }).then(function(response) {
+
+
+           response.json().then(function(data){
+              console.log(data);
+              var win = window.open();
+
+              win.document.write(JSON.stringify(data));    // !!! 关键，接收后端的数据并进行新窗口写入
+
+           });
+      }).catch(function(e) {
+          console.log("Oops, error");
+    });
+    }
+    function login_function()
+    {
+    var myHeaders = new Headers();
+    var n = document.getElementById('username').value;
+    console.log(n);
+    myHeaders.append('Content-Type', 'application/json');
+    fetch("http://localhost:5000/auth", {
+        method: 'post',
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+        },
+        body: 'username='+document.getElementById('username').value+'&'+'password='+document.getElementById('password').value
+      }).then(function(response) {
+          //打印返回的json数据
+          //console.log(response)  //状态信息
+          //console.log(response.json())   //一个promise对象
+          //console.log(response.json().data) //报错了
+          //如何打印出body中的json信息
+
+           response.json().then(function(data){
+              document.cookie="token="+data;
+              console.log(data);
+              alert(data);
+           });
+      }).catch(function(e) {
+          console.log("Oops, error");
+    });
+
+
+    }
+    function import_data_bypostcode() {
+      var myHeaders = new Headers({
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+          'AUTH_TOKEN' : document.cookie.split(";")[0].split("=")[1]
+        });
+        //console.log(nameUpdate);
+        const url = 'http://127.0.0.1:5000/import';
+        //document.getElementById('updating').action = 'http://127.0.0.1:5000/students/' + nameUpdate;
+        //console.log(nameUpdate);
+        console.log(document.cookie.split(";")[0].split("=")[1]);
+        fetch(url, {
+            method: 'post',
+            headers: myHeaders,
+            body: 'postcode='+document.getElementById('postcode').value,
+
+        }).then(function(response) {
+
+
+           response.json().then(function(data){
+              console.log(data);
+              var win = window.open();
+
+              win.document.write(data);    // !!! 关键，接收后端的数据并进行新窗口写入
+
+           });
+      }).catch(function(e) {
+          console.log("Oops, error");
+    });
+
+    }
+
+    function import_data()
+    {
+        var myHeaders = new Headers({
+
+
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+          'AUTH_TOKEN' : document.cookie.split(";")[0].split("=")[1]
+        });
+        //console.log(nameUpdate);
+        const url = 'http://127.0.0.1:5000/import';
+        //document.getElementById('updating').action = 'http://127.0.0.1:5000/students/' + nameUpdate;
+        //console.log(nameUpdate);
+        console.log(document.cookie.split(";")[0].split("=")[1]);
+        fetch(url, {
+            method: 'post',
+            headers: myHeaders,
+            body: 'lga='+document.getElementById('lganame').value,
+
+
+
+
+        }).then(function(response) {
+          //打印返回的json数据
+          //console.log(response)  //状态信息
+          //console.log(response.json())   //一个promise对象
+          //console.log(response.json().data) //报错了
+          //如何打印出body中的json信息
+
+           response.json().then(function(data){
+              console.log(data);
+              var win = window.open();
+
+              win.document.write(data);    // !!! 关键，接收后端的数据并进行新窗口写入
+
+           });
+      }).catch(function(e) {
+          console.log("Oops, error");
+    });
+
+    }
+    function delete_one_collection() {
+var myHeaders = new Headers({
+
+
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+          'AUTH_TOKEN' : document.cookie.split(";")[0].split("=")[1]
+        });
+        const url = 'http://127.0.0.1:5000/delete';
+
+        console.log(document.cookie.split(";")[0].split("=")[1]);
+        fetch(url, {
+            method: 'delete',
+            headers: myHeaders,
+            body: 'lga='+document.getElementById('id_lga').value
+
+
+        }).then(function(response) {
+
+           response.json().then(function(data){
+              console.log(data);
+              alert(data);   // !!! 关键，接收后端的数据并进行新窗口写入
+
+           });
+      }).catch(function(e) {
+          console.log("Oops, error");
+    });
+    }
+    function filter_function() {
+      var data = {lga1: document.getElementById('lga1').value,
+      lga2 : document.getElementById('lga2').value,
+      year :document.getElementById('n_year').value};
+    var myHeaders = new Headers({
+            'Content-Type': 'application/json',
+          'AUTH_TOKEN' : document.cookie.split(";")[0].split("=")[1]
+        });
+
+        const url = 'http://127.0.0.1:5000/filter';
+        console.log(document.cookie.split(";")[0].split("=")[1]);
+        fetch(url, {
+            method: 'post',
+            headers: myHeaders,
+            body:  JSON.stringify(data)
+
+        }).then(function(response) {
+
+           response.json().then(function(data){
+              console.log(data);
+              var win = window.open();
+
+              win.document.write(JSON.stringify(data));   // !!! 关键，接收后端的数据并进行新窗口写入
+
+           });
+      });
+    }
+</script>
+<div id="main">
+    <h1>Authentication Detail</h1>
+
+    <label>Username:</label> <input type="text"  name='username' id="username"/>
+    <label>Password:</label> <input type="text" name='password' id="password"/>
+    <button name="btnlogin" id="btnlogin" onclick="login_function();" >Login</button>
+
+
+  <h2>LGA Data Import (i.e., POST operation)</h2>
+        <div>
+            <h3 style="display:inline">lga name:</h3>
+            <input type="text"  name='lganame' id="lganame"/>
+            <button style="margin-left:15px;" onclick="import_data();" >Run</button>
+        </div>
+        <div>
+            <h3 style="display:inline">postcode:</h3>
+            <input type="text"  name='postcode' id="postcode"/>
+            <button style="margin-left:15px;" onclick="import_data_bypostcode();" >Run</button>
+        </div>
+
+<br/>
+  <p>This section will display the response content</p>
+        <h2>GET the collection (i.e., GET all data entries):</h2>
+        <div>
+            <h2 style="display:inline">Content Negotiation Option (JSON?):</h2>
+
+            <button style="margin-left:15px;" onclick="get_all_collections_xml();">Get Collection (xml)</button>
+          <button style="margin-left:15px;" onclick="get_all_collections_json();">Get Collection (json)</button>
+        </div>
+
+     <h2>GET a single LGA crime statics data:(i.e., GET a single entry)</h2>
+  <label>Id of the data entry:</label> <input type="text" name='id_lga' id="id_lga"/>
+
+        <div>
+            <h2 style="display:inline">Content Negotiation Option (JSON?):</h2>
+
+            <button style="margin-left:15px;" onclick="get_one_collections_xml();">Get one Collection (xml)</button>
+          <button style="margin-left:15px;" onclick="get_one_collections_json();">Get one Collection (json)</button>
+        </div>
+    <br/>
+    <div>
+            <h2 style="display:inline">DELETE</h2>
+    <button style="margin-left:15px;" onclick="delete_one_collection();">DELETE</button>
+    </div>
+    <div>
+            <h2 style="display:inline">Filter</h2>
+      <label>lga1:</label> <input type="text" name='lga1' id="lga1"/>
+      <label>lga2:</label> <input type="text" name='lga2' id="lga2"/>
+      <label>year:</label> <input type="text" name='n_year' id="n_year"/>
+    <button style="margin-left:15px;" onclick="filter_function();">search</button>
+    </div>
+</div>
+</body>
+</html>

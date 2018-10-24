@@ -1,0 +1,7 @@
+dicttoxml
+werkzeug
+openpyxl
+requests
+itsdangerous
+pymongo
+flask
